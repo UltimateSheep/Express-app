@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { schema } = require("../../expressjs/models/Members");
 
 const Schema = new mongoose.Schema({
     Username: {

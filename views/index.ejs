@@ -11,8 +11,151 @@
         </li>
     </ul>
     <div class="ms-5">
+        <div class="card-header">
+            What is going on:
+        </div>
+        <form action="/create-post" id="postForm" method="post"" >
+            <p class=" text-info">Post your own story</p>
+            <input type="text" class="form-control mb-2" placeholder="text here" name="Content" id="inputPost" required>
+            <input type="submit" value="Post!" id="inputBtn">
+
+
+        </form>
+        <hr>
+        <div class="card">
+            <ol class="list-group list-group-flush" reversed>
+                <% let formNum=0 %>
+                    <% Posts.forEach(Post=> { %>
+                        <% formNum +=1 %>
+                            <li class="list-group-item">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <%- Post.Owner%>
+                                            <% if (User.Username===Post.Owner || User.Username==="admin" ) { %>
+                                                <form action="/remove-post" method="post" id="deleteForm">
+                                                    <input type="hidden" name="id" value='<%= Post._id %>'>
+                                                    <input type="submit" class="btn btn-danger text-end" value="delete"
+                                                        id="inputDelete">
+                                                </form>
+                                                <% } %>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <%- Post.Body %>
+                                        </p>
+                                        <div class="card-footer text-muted">
+                                            <form action="/create-comment" method="post" id="comment-form<%= formNum%>">
+
+                                                <input type="hidden" value="<%= Post._id %>" name="id">
+
+                                                <input type="text" name="Content" id="Content" maxlength="40"
+                                                    required><input type="submit" value="Comment" id="commentPost"
+                                                    >
+                                                <input type="button" class="btn btn-outline-primary"
+                                                    value="Show Comments" id="showComment">
+                                            </form>
+                                            <div id="comment_space" hidden="hidden">
+                                                <ul class="list-group">
+                                                    <% let num=0 %>
+                                                        <% Post.Comments.forEach(Comment=> { %>
+                                                            <% num +=1 %>
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <h5 class="card-title">
+                                                                            <%- Comment.Owner %>
+                                                                                <% if (User.Username===Post.Owner ||
+                                                                                    User.Username==="admin" ) { %>
+                                                                                    <form action="/remove-comment"
+                                                                                        method="post" id="deleteForm">
+                                                                                        <input type="hidden" name="id"
+                                                                                            value='<%= Post._id %>'>
+                                                                                        <input type="hidden"
+                                                                                            name="index"
+                                                                                            value='<%= num %>'>
+                                                                                        <input type="submit"
+                                                                                            class="btn btn-danger text-end"
+                                                                                            value="delete"
+                                                                                            id="inputDelete">
+                                                                                    </form>
+                                                                                    <% } %>
+                                                                        </h5>
+                                                                        <p class="card-text">
+                                                                            <%- Comment.Content %>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <% }); %>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </li>
+                            <% }); %>
+            </ol>
+        </div>
+
 
     </div>
-    <% block('js', `<script>
+    <script>
+        const allShowComment = document.querySelectorAll("#showComment")
 
+        allShowComment.forEach(btn => {
+            const form = btn.parentElement
+            let Debouce = false
+            form.addEventListener("submit", (e) => {
+                if (Debouce === false) {
+                    Debouce = true
+                } else {
+                    return e.preventDefault()
+                }
+            })
+
+            btn.addEventListener("click", (e) => {
+                Debouce = true
+                let element = btn.parentElement.parentElement.lastElementChild;
+                let hidden = element.getAttribute("hidden");
+
+                if (hidden) {
+                    element.removeAttribute("hidden");
+                    btn.value = "Hide Comment";
+                } else {
+                    element.setAttribute("hidden", "hidden");
+                    btn.value = "Show Comment";
+                }
+
+            })
+        });
+    </script>
+    <% block('js', `<script>
+        const postForm = document.querySelector("#postForm")
+        const deleteForm = document.querySelector("#deleteForm")
+        const inputPost = document.querySelector("#inputPost")
+        const inputDelete = document.querySelector("#inputDelete")
+        const inputBtn = document.querySelector("#inputBtn")
+        const commentPost = document.querySelector("#commentPost")
+        const commentform = document.querySelector("comment-form")
+        let Debouce = false
+
+        postForm.addEventListener("submit", (e)=>{
+        if(Debouce === false){
+        Debouce = true
+        inputBtn.parentNode.removeChild(inputBtn)
+        inputDelete.parentNode.removeChild(inputDelete)
+        }else {
+        return e.preventDefault()
+        }
+
+        if (deleteForm) {
+        deleteForm.addEventListener("submit", (e)=>{
+        inputBtn.parentNode.removeChild(inputBtn)
+        inputDelete.parentNode.removeChild(inputDelete)
+        inputPost.parentNode.removeChild(inputPost);
+        })
+        }
+        ;
+        }
         </script>`) -%>

@@ -6,7 +6,6 @@ if (process.env.NODE_ENV !== "production") require("dotenv").config();
 const engine = require("ejs-blocks");
 const path = require("path");
 const request = require("request");
-const { post } = require("request");
 const mongoData = require("./model/UserData");
 const Passport = require("passport")
 const initializePassport = require("./passport-config");
@@ -14,7 +13,7 @@ const session = require("express-session");
 const flash = require("express-flash");
 const passport = require("passport");
 const localstrategy = require("passport-local").Strategy;
-
+const Posts = require("./model/Post")
 
 const app = express();
 
@@ -67,7 +66,6 @@ var loadCountries = (req, res, next) => {
 Passport.serializeUser((User, done) => done(null, User.id));
 Passport.deserializeUser((id, done) => {
     mongoData.findById(id, (err, user) => {
-        console.log("Hello")
         done(err, user)
     })
 });
@@ -84,7 +82,7 @@ Passport.use(new localstrategy({ usernameField: "Username", passwordField: 'Pass
             console.log("signed in")
             return done(null, user)
         })
-    })
+    }).clone().catch(function (err) { console.log(err) })
 
 }))
 
@@ -121,9 +119,65 @@ app.set("view engine", "ejs")
 
 app.get("/", isLoggedIn, (req, res) => {
     // const user = getUser(res.user)
-    console.log(req.user);
-    res.render("index", { title: "main page", User: req.user })
+    Posts.find({}, (err, result) => {
+        if (err) return console.log(err);
+        res.render("index", { title: "main page", User: req.user, Posts: result })
+    })
 });
+app.post("/create-comment", async (req, res) => {
+    const content = req.body.Content;
+
+    const pushComment = Posts.findByIdAndUpdate({ _id: req.body.id }, {
+        $push: {
+            Comments: {
+                "Owner": req.user.Username,
+                "Content": content
+            }
+        }
+    }).catch(err => console.log(err))
+    return res.redirect("/")
+})
+app.post("/remove-comment", async (req, res) => {
+    const index = parseInt(req.body.index) - 1
+
+    await Posts.findOneAndUpdate({ _id: req.body.id }, [
+        {
+            $set: {
+                "Comments": {
+                    $concatArrays: [
+                        { $slice: ["$Comments", index] },
+                        { $slice: ["$Comments", { $add: [1, index] }, { $size: "$Comments" }] }
+                    ]
+                }
+            }
+        }
+    ])
+    res.redirect("/")
+
+})
+
+app.post("/create-post", async (req, res) => {
+    const content = req.body.Content;
+
+    const newMember = Posts.create({
+        Owner: req.user.Username,
+        Body: req.body.Content
+    })
+    // setTimeout(async () => {
+    //     await Posts.collection({ _id: req.body.id }, (err, res2) => {
+    //         if (err) return console.log(err);
+
+    //     }).clone().catch(function (err) { console.log(err) })
+    // }, 5000);
+    return res.redirect("/")
+})
+app.post("/remove-post", async (req, res) => {
+    await Posts.findOneAndRemove({ _id: req.body.id }, (err, res2) => {
+        if (err) return console.log(err);
+
+        return res.redirect("/")
+    }).clone().catch(function (err) { console.log(err) })
+})
 
 app.get("/settings", isLoggedIn, (req, res) => {
     res.render("settings", { title: "Settings", User: req.user })
@@ -170,7 +224,7 @@ app.get("/login/:mes", isLoggedOut, (req, res) => {
     res.render("login", { title: "login", message: "Username/Password are incorrect" })
     console.log(req.params.mes);
 });
-app.get("/logout", isLoggedIn, (req, res) => {
+app.post("/logout", isLoggedIn, (req, res) => {
     console.log(`logged out for and ${req.isAuthenticated()}`);
     req.logout();
     res.redirect("/")
