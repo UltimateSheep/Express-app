@@ -1,0 +1,29 @@
+<% layout('layout') -%>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Chat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/">Chat</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/settings">Settings</a>
+        </li>
+    </ul>
+    <div class="ms-5">
+        <ul class="list-group">
+            <li class="list-group-item">Username : <%= User.Username %>
+                    <form action="/ChangeName" method="get">
+                        <input type="submit" value="✏️" class="btn btn-secondary">
+                    </form>
+            </li>
+            <li class="list-group-item">Password : *secret*</li>
+            <li class="list-group-item">Firstname : <%=User.Firstname %>
+            </li>
+            <li class="list-group-item">Lastname : <%=User.Lastname %>
+            </li>
+        </ul>
+    </div>
+    <% block('js', `<script>
+
+        </script>`) -%>
