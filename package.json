@@ -1,14 +1,14 @@
 {
   "name": "login-expressjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hello",
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon index.js",
     "heroku-postbuild": "npm run build",
     "build": "tsc"
   },
-  "author": "",
+  "author": "amogus",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
