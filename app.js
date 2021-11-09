@@ -2,7 +2,7 @@ const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
+require("dotenv").config();
 const engine = require("ejs-blocks");
 const path = require("path");
 const request = require("request");
@@ -22,7 +22,7 @@ app.use(express.urlencoded({
     extended: false
 }))
 
-const URI = process.env.MONGO_DB_SECRET
+const URI = "mongodb+srv://UltimateSheep:Tonghtyou56@cluster0.qycns.mongodb.net/mySecondDatabase?retryWrites=true&w=majority"
 app.use(flash())
 app.use(session({
     secret: process.env.SECRET_KEY,
@@ -151,6 +151,7 @@ app.post("/create-reply", async (req, res) => {
     const pushComment = Posts.findByIdAndUpdate({ _id: req.body.id }, {
         $push: {
             [`Comments.$[].replies`]: {
+                _id: mongoose.Types.ObjectId(),
                 "Owner": req.user.Username,
                 "Content": content
             }
@@ -159,24 +160,19 @@ app.post("/create-reply", async (req, res) => {
     }).catch(err => console.log(err))
     return res.redirect("/")
 })
-// app.post("/remove-reply", async (req, res) => {
-//     const index = parseInt(req.body.index) - 1
+app.post("/remove-reply", async (req, res) => {
+    const index = parseInt(req.body.index) - 1
+    const commentIndex = parseInt(req.body.commentIndex) - 1
+    await Posts.findOneAndUpdate({ _id: req.body.id }, {
+        $pull: {
+            [`Comments.${commentIndex}.replies`]: {
+                _id: req.body.replyIndex
+            }
+        }
+    })
+    res.redirect("/")
 
-//     await Posts.findOneAndUpdate({ _id: req.body.id }, [
-//         {
-//             $set: {
-//                 "Comments.$[].replies": {
-//                     $concatArrays: [
-//                         { $slice: ["$Comments.$[].replies", index] },
-//                         { $slice: ["$Comments.$[].replies", { $add: [1, index] }, { $size: "$Comments.$[].replies" }] }
-//                     ]
-//                 }
-//             }
-//         }
-//     ])
-//     res.redirect("/")
-
-// })
+})
 app.post("/remove-comment", async (req, res) => {
     const index = parseInt(req.body.index) - 1
 

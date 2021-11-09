@@ -99,20 +99,53 @@
                                                                                     id="showReplies">
                                                                             </form>
                                                                             <div id="RepliesSpace" hidden="hidden">
-                                                                                <%Comment.replies.forEach(Reply=>
-                                                                                    {%>
-                                                                                    <div class="card">
-                                                                                        <div class="card-body">
-                                                                                            <h5 class="card-title">
-                                                                                                <%= Reply.Owner%>
-
-                                                                                            </h5>
-                                                                                            <p class="card-text">
-                                                                                                <%= Reply.Content%>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <%});%>
+                                                                                <% let replyNum=0%>
+                                                                                    <%Comment.replies.forEach(Reply=>
+                                                                                        {%>
+                                                                                        <% replyNum +=1%>
+                                                                                            <div class="card">
+                                                                                                <div class="card-body">
+                                                                                                    <h5
+                                                                                                        class="card-title">
+                                                                                                        <%=
+                                                                                                            Reply.Owner%>
+                                                                                                            <% if
+                                                                                                                (User.Username===Reply.Owner
+                                                                                                                ||
+                                                                                                                User.Username==="admin"
+                                                                                                                ) { %>
+                                                                                                                <form
+                                                                                                                    action="/remove-reply"
+                                                                                                                    method="post"
+                                                                                                                    id="deleteForm">
+                                                                                                                    <input
+                                                                                                                        type="hidden"
+                                                                                                                        name="id"
+                                                                                                                        value='<%= Post._id %>'>
+                                                                                                                    <input
+                                                                                                                        type="hidden"
+                                                                                                                        name="replyId"
+                                                                                                                        value='<%= Reply._id %>'>
+                                                                                                                    <input
+                                                                                                                        type="hidden"
+                                                                                                                        name="commentIndex"
+                                                                                                                        value="<%= num%>">
+                                                                                                                    <input
+                                                                                                                        type="submit"
+                                                                                                                        class="btn btn-danger text-end"
+                                                                                                                        value="delete"
+                                                                                                                        id="inputDelete">
+                                                                                                                </form>
+                                                                                                                <% } %>
+                                                                                                    </h5>
+                                                                                                    <p
+                                                                                                        class="card-text">
+                                                                                                        <%=
+                                                                                                            Reply.Content%>
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <%});%>
                                                                             </div>
                                                                         </div>
                                                                     </div>
