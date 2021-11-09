@@ -31,7 +31,7 @@ app.use(express.urlencoded({
     extended: false
 }))
 
-const URI = "mongodb+srv://UltimateSheep:Tonghtyou56@cluster0.qycns.mongodb.net/mySecondDatabase?retryWrites=true&w=majority"
+const URI = process.env.MONGO_DB_SECRET
 app.use(flash())
 app.use(session({
     secret: process.env.SECRET_KEY,
