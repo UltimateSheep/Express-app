@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Hello",
   "main": "index.js",
+  "engines": {
+    "node": "14.18.1"
+  },
   "scripts": {
     "devStart": "nodemon index.js",
     "start": "node index.js",
