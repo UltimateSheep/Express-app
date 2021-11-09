@@ -9,7 +9,6 @@ const path = require("path");
 const request = require("request");
 const mongoData = require("./model/UserData");
 const Passport = require("passport")
-const initializePassport = require("./passport-config");
 const session = require("express-session");
 const flash = require("express-flash");
 const passport = require("passport");
