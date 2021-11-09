@@ -10,11 +10,15 @@ const Schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    Image: {
+        type: Array,
+        required: false
+    },
     Comments: {
         type: Array,
         required: false
     }
-    
+
 }, { collection: 'Posts' })
 
 const Data = mongoose.model("data2", Schema);

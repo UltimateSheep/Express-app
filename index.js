@@ -3,7 +3,7 @@ const ejs = require("ejs");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 if (process.env.NODE_ENV !== "Production") require("dotenv").config();
-
+const multer = require("multer");
 const engine = require("ejs-blocks");
 const path = require("path");
 const request = require("request");
@@ -17,6 +17,15 @@ const Posts = require("./model/Post")
 const fs = require("fs")
 const app = express();
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/uploads/")
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({ storage: storage, limits: { fieldSize: 10 * 1024 * 1024 } })
 app.use(express.json());
 app.use(express.urlencoded({
     extended: false
@@ -116,6 +125,8 @@ async function getUser(Username) {
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", engine);
 app.set("view engine", "ejs")
+var publicDir = require('path').join(__dirname, '/public');
+app.use(express.static(publicDir));
 
 app.get("/", isLoggedIn, (req, res) => {
     // const user = getUser(res.user)
@@ -192,12 +203,14 @@ app.post("/remove-comment", async (req, res) => {
 
 })
 
-app.post("/create-post", async (req, res) => {
+app.post("/create-post", upload.single("file"), async (req, res) => {
     const content = req.body.Content;
+    console.log(req.file);
 
     const newMember = Posts.create({
         Owner: req.user.Username,
-        Body: req.body.Content
+        Body: req.body.Content,
+        Image: req.file
     })
     // setTimeout(async () => {
     //     await Posts.collection({ _id: req.body.id }, (err, res2) => {

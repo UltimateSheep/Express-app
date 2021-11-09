@@ -14,8 +14,8 @@
   "author": "amogus",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^10.0.0",
     "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "ejs-blocks": "^0.1.4",
     "express": "^4.17.1",
@@ -23,11 +23,21 @@
     "express-session": "^1.17.2",
     "mongoose": "^6.0.12",
     "multer": "^1.4.3",
+    "node-pre-gyp": "^0.17.0",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
     "request": "^2.88.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UltimateSheep/Express-app.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/UltimateSheep/Express-app/issues"
+  },
+  "homepage": "https://github.com/UltimateSheep/Express-app#readme"
 }

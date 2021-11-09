@@ -14,11 +14,12 @@
         <div class="card-header">
             What is going on:
         </div>
-        <form action="/create-post" id="postForm" method="post"" >
+        <form action="/create-post" id="postForm" method="post" enctype="multipart/form-data">
             <p class=" text-info">Post your own story</p>
             <input type="text" class="form-control mb-2" placeholder="text here" name="Content" id="inputPost" required>
+            <label for="Image">Picture:</label>
+            <input type="file" name="file" id="Image" accept="image/*" class="form-control"><br>
             <input type="submit" value="Post!" id="inputBtn">
-
 
         </form>
         <hr>
@@ -41,7 +42,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            <%- Post.Body %>
+                                            <%- Post.Body %> <br>
+                                                <% if (Post.Image.length>0) { %>
+                                                    <picture>
+                                                        <img src="https://agile-ridge-77628.herokuapp.com/uploads/<%= Post.Image[0].filename%>"
+                                                            alt="can't not display image" width="200rem">
+                                                    </picture>
+                                                    <% } %>
                                         </p>
                                         <div class="card-footer text-muted">
                                             <form action="/create-comment" method="post" id="comment-form<%= formNum%>">
