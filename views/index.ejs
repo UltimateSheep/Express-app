@@ -47,13 +47,12 @@
                                             <form action="/create-comment" method="post" id="comment-form<%= formNum%>">
 
                                                 <input type="hidden" value="<%= Post._id %>" name="id">
-
                                                 <input type="text" name="Content" id="Content" maxlength="40"
-                                                    required><input type="submit" value="Comment" id="commentPost"
-                                                    >
+                                                    required><input type="submit" value="Comment" id="commentPost">
                                                 <input type="button" class="btn btn-outline-primary"
                                                     value="Show Comments" id="showComment">
                                             </form>
+
                                             <div id="comment_space" hidden="hidden">
                                                 <ul class="list-group">
                                                     <% let num=0 %>
@@ -82,6 +81,40 @@
                                                                         <p class="card-text">
                                                                             <%- Comment.Content %>
                                                                         </p>
+                                                                        <div class="card-footer text-muted">
+                                                                            <form action="/create-reply" method="post"
+                                                                                id="comment-form<%= formNum%>">
+
+                                                                                <input type="hidden"
+                                                                                    value="<%= Post._id %>" name="id">
+                                                                                <input type="hidden" name="index"
+                                                                                    value="<%= num %>">
+                                                                                <input type="text" name="Content"
+                                                                                    id="Content" maxlength="40"
+                                                                                    required><input type="submit"
+                                                                                    value="Comment" id="replyPost">
+                                                                                <input type="button"
+                                                                                    class="btn btn-outline-primary"
+                                                                                    value="Show Replies"
+                                                                                    id="showReplies">
+                                                                            </form>
+                                                                            <div id="RepliesSpace" hidden="hidden">
+                                                                                <%Comment.replies.forEach(Reply=>
+                                                                                    {%>
+                                                                                    <div class="card">
+                                                                                        <div class="card-body">
+                                                                                            <h5 class="card-title">
+                                                                                                <%= Reply.Owner%>
+
+                                                                                            </h5>
+                                                                                            <p class="card-text">
+                                                                                                <%= Reply.Content%>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <%});%>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <% }); %>
@@ -101,7 +134,8 @@
 
     </div>
     <script>
-        const allShowComment = document.querySelectorAll("#showComment")
+        const allShowComment = document.querySelectorAll("#showComment");
+        const allShowReplies = document.querySelectorAll("#showReplies");
 
         allShowComment.forEach(btn => {
             const form = btn.parentElement
@@ -129,6 +163,32 @@
 
             })
         });
+        allShowReplies.forEach(btn => {
+            const form = btn.parentElement
+            let Debouce = false
+            form.addEventListener("submit", (e) => {
+                if (Debouce === false) {
+                    Debouce = true
+                } else {
+                    return e.preventDefault()
+                }
+            })
+
+            btn.addEventListener("click", (e) => {
+                Debouce = true
+                let element = btn.parentElement.parentElement.lastElementChild;
+                let hidden = element.getAttribute("hidden");
+
+                if (hidden) {
+                    element.removeAttribute("hidden");
+                    btn.value = "Hide Replies";
+                } else {
+                    element.setAttribute("hidden", "hidden");
+                    btn.value = "Show Replies";
+                }
+
+            })
+        })
     </script>
     <% block('js', `<script>
         const postForm = document.querySelector("#postForm")

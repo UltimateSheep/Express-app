@@ -27,6 +27,21 @@
     <form action="/logout" method="post">
         <button type="submit" class="btn btn-danger mt-3">logout</button>
     </form>
+    <form action="/report" method="post" class="text-center">
+        <p>Found a bug? Report it here!</p>
+        <div class="">
+            <input type="email" name="Email" id="emailReport" placeholder="Your email" class="mb-3" required>
+            <input type="hidden" name="Name" value="<%= User.Username%>" required>
+            <br>
+            <textarea name="Content" id="textArea" cols="50" required>
+
+            </textarea>
+            <input type="submit" value="submit">
+        </div>
+    </form>
+    <script>
+
+    </script>
     <% block('js', `<script>
 
         </script>`) -%>

@@ -14,7 +14,7 @@ const flash = require("express-flash");
 const passport = require("passport");
 const localstrategy = require("passport-local").Strategy;
 const Posts = require("./model/Post")
-
+const fs = require("fs")
 const app = express();
 
 app.use(express.json());
@@ -131,12 +131,52 @@ app.post("/create-comment", async (req, res) => {
         $push: {
             Comments: {
                 "Owner": req.user.Username,
-                "Content": content
+                "Content": content,
+                "replies": []
             }
         }
     }).catch(err => console.log(err))
     return res.redirect("/")
 })
+app.post("/report", (req, res) => {
+    let content = `\nUsername: ${req.body.Name} \nEmail: ${req.body.Email} \nReport:${req.body.Content}`
+    fs.appendFile('BugReports.txt', content, function (err) {
+        if (err) throw err;
+        return res.redirect("/settings")
+    });
+})
+app.post("/create-reply", async (req, res) => {
+    const content = req.body.Content;
+
+    const pushComment = Posts.findByIdAndUpdate({ _id: req.body.id }, {
+        $push: {
+            [`Comments.$[].replies`]: {
+                "Owner": req.user.Username,
+                "Content": content
+            }
+
+        }
+    }).catch(err => console.log(err))
+    return res.redirect("/")
+})
+// app.post("/remove-reply", async (req, res) => {
+//     const index = parseInt(req.body.index) - 1
+
+//     await Posts.findOneAndUpdate({ _id: req.body.id }, [
+//         {
+//             $set: {
+//                 "Comments.$[].replies": {
+//                     $concatArrays: [
+//                         { $slice: ["$Comments.$[].replies", index] },
+//                         { $slice: ["$Comments.$[].replies", { $add: [1, index] }, { $size: "$Comments.$[].replies" }] }
+//                     ]
+//                 }
+//             }
+//         }
+//     ])
+//     res.redirect("/")
+
+// })
 app.post("/remove-comment", async (req, res) => {
     const index = parseInt(req.body.index) - 1
 
