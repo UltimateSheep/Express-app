@@ -2,7 +2,8 @@ const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-require("dotenv").config();
+if (process.env.NODE_ENV !== "Production") require("dotenv").config();
+
 const engine = require("ejs-blocks");
 const path = require("path");
 const request = require("request");
