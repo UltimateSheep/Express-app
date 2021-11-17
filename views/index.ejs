@@ -1,4 +1,8 @@
 <% layout('layout') -%>
+
+    <head>
+
+    </head>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Main</a>
@@ -18,7 +22,7 @@
             <p class=" text-info">Post your own story</p>
             <input type="text" class="form-control mb-2" placeholder="text here" name="Content" id="inputPost" required>
             <label for="Image">Picture:</label>
-            <input type="file" name="file" id="Image" accept="image/*, video/mp4" class="form-control"><br>
+            <input type="file" name="file" id="Image" accept="image/*" class="form-control"><br>
             <input type="submit" value="Post!" id="inputBtn">
 
         </form>
@@ -45,7 +49,7 @@
                                             <%- Post.Body %> <br>
                                                 <% if (Post.Image.length>0) { %>
                                                     <picture>
-                                                        <img src="https://agile-ridge-77628.herokuapp.com/uploads/<%= Post.Image[0].filename%>"
+                                                        <img src="http://localhost:5000/uploads/<%= Post.Image[0].filename%>"
                                                             alt="can't not display image" width="200rem">
                                                     </picture>
                                                     <% } %>
@@ -171,7 +175,16 @@
             </ol>
         </div>
 
+        <style>
+            ol {
+                display: flex;
+                flex-direction: column-reverse;
+            }
 
+            li {
+                flex: 0 0 auto;
+            }
+        </style>
     </div>
     <script>
         const allShowComment = document.querySelectorAll("#showComment");
@@ -257,5 +270,5 @@
         })
         }
         ;
-        }
+        })
         </script>`) -%>

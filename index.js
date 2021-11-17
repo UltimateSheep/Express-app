@@ -2,7 +2,7 @@ const express = require("express");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-require("dotenv").config();
+if (process.env.NODE_ENV !== "Production") require("dotenv").config();
 const engine = require("ejs-blocks");
 const path = require("path");
 const request = require("request");
@@ -12,9 +12,38 @@ const session = require("express-session");
 const flash = require("express-flash");
 const passport = require("passport");
 const localstrategy = require("passport-local").Strategy;
-const Posts = require("./model/Post")
-const fs = require("fs")
+const Posts = require("./model/Post");
+const fs = require("fs");
+const pg = require("pg");
+const { Client, Pool } = require("pg");
 const app = express();
+const multer = require("multer")
+
+// pg.defaults.ssl = true;
+// const pool = new Pool({
+//     user: "xuqlsqtefgfgel",
+//     host: "ec2-107-21-10-179.compute-1.amazonaws.com",
+//     database: "d15u1rhock3ts7",
+//     password: "b91c6a5500c8d6e802a9fc9463804bdcdd2c48180eb8aac8dd83a471c9e4f2b9",
+//     port: 5432
+// });
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+client.connect()
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/uploads/")
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "--" + file.originalname)
+    }
+})
+const upload = multer({ storage: storage, limits: { fieldSize: 10 * 1024 * 1024 } })
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -35,6 +64,7 @@ app.use(session({
 
 app.use(Passport.initialize())
 app.use(Passport.session())
+app.use(express.static(path.join(__dirname, "public")))
 
 mongoose.connect(URI, {
     useNewUrlParser: true,
@@ -93,7 +123,6 @@ function isLoggedOut(req, res, next) {
 }
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        console.log("You're authenticated");
         return next()
     };
     res.redirect('/login');
@@ -120,7 +149,7 @@ app.get("/", isLoggedIn, (req, res) => {
     // const user = getUser(res.user)
     Posts.find({}, (err, result) => {
         if (err) return console.log(err);
-        res.render("index", { title: "main page", User: req.user, Posts: result })
+        res.render("index", { title: "main page", User: req.user, Posts: result.reverse() })
     })
 });
 app.post("/create-comment", async (req, res) => {
@@ -191,19 +220,19 @@ app.post("/remove-comment", async (req, res) => {
 
 })
 
-app.post("/create-post", async (req, res) => {
+app.post("/create-post", upload.single("file"), async (req, res) => {
     const content = req.body.Content;
 
     const newMember = Posts.create({
         Owner: req.user.Username,
-        Body: req.body.Content
+        Body: req.body.Content,
+        Image: req.file
     })
-    // setTimeout(async () => {
-    //     await Posts.collection({ _id: req.body.id }, (err, res2) => {
-    //         if (err) return console.log(err);
+    client.query(`INSERT INTO a_image(data, image, name)VALUES(bytea("${req.file.stream}"), "${req.file.filename}", "${req.file.originalname}")`, (err, final) => {
+        console.log(err, final);
+        client.end();
+    })
 
-    //     }).clone().catch(function (err) { console.log(err) })
-    // }, 5000);
     return res.redirect("/")
 })
 app.post("/remove-post", async (req, res) => {
