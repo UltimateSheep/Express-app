@@ -228,13 +228,14 @@ app.post("/create-post", upload.single("file"), async (req, res) => {
         Body: req.body.Content,
         Image: req.file
     })
-    client.query(`INSERT INTO a_image(data, image, name)VALUES(bytea("${req.file.stream}"), "${req.file.filename}", "${req.file.originalname}")`, (err, final) => {
+    client.query(`INSERT INTO a_image(data, image, name)VALUES(bytea("${path.join(__dirname, req.file.filename)}"), "${req.file.filename}", "${req.file.originalname}")`, (err, final) => {
         console.log(err, final);
         client.end();
     })
 
     return res.redirect("/")
 })
+
 app.post("/remove-post", async (req, res) => {
     await Posts.findOneAndRemove({ _id: req.body.id }, (err, res2) => {
         if (err) return console.log(err);
