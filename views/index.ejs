@@ -18,17 +18,18 @@
         <div class="card-header">
             What is going on:
         </div>
-        <form action="/create-post" id="postForm" method="post" enctype="multipart/form-data">
+        <form action="/create-post" id="postForm" method="post" enctype="multipart/form-data" class="mx-2">
             <p class=" text-info">Post your own story</p>
             <input type="text" class="form-control mb-2" placeholder="text here" name="Content" id="inputPost" required>
-            <label for="Image">Picture:</label>
+            <label for="Image">Picture(if needed):</label>
             <input type="file" name="file" id="Image" accept="image/*" class="form-control"><br>
-            <input type="submit" value="Post!" id="inputBtn">
+            <input type="submit" value="Post!" id="inputBtn" class="btn btn-success text-center">
 
         </form>
         <hr>
         <div class="card">
             <ol class="list-group list-group-flush" reversed>
+            <p class="text-muted mx-5">tip: if you can't comment, reload the page. We are looking into this problem </p>
                 <% let formNum=0 %>
                     <% Posts.forEach(Post=> { %>
                         <% formNum +=1 %>
@@ -49,7 +50,7 @@
                                             <%- Post.Body %> <br>
                                                 <% if (Post.Image.length>0) { %>
                                                     <picture>
-                                                        <img src="http://localhost:5000/uploads/<%= Post.Image[0].filename%>"
+                                                        <img src="https://express-app.ultimatecode.repl.co/uploads/<%= Post.Image[0].filename%>"
                                                             alt="can't not display image" width="200rem">
                                                     </picture>
                                                     <% } %>
@@ -202,7 +203,6 @@
             })
 
             btn.addEventListener("click", (e) => {
-                Debouce = true
                 let element = btn.parentElement.parentElement.lastElementChild;
                 let hidden = element.getAttribute("hidden");
 
@@ -211,6 +211,7 @@
                     btn.value = "Hide Comment";
                 } else {
                     element.setAttribute("hidden", "hidden");
+                    
                     btn.value = "Show Comment";
                 }
 
@@ -228,7 +229,6 @@
             })
 
             btn.addEventListener("click", (e) => {
-                Debouce = true
                 let element = btn.parentElement.parentElement.lastElementChild;
                 let hidden = element.getAttribute("hidden");
 

@@ -17,27 +17,15 @@ const fs = require("fs");
 const pg = require("pg");
 const { Client, Pool } = require("pg");
 const app = express();
-const multer = require("multer")
+const multer = require("multer");
 
-// pg.defaults.ssl = true;
-// const pool = new Pool({
-//     user: "xuqlsqtefgfgel",
-//     host: "ec2-107-21-10-179.compute-1.amazonaws.com",
-//     database: "d15u1rhock3ts7",
-//     password: "b91c6a5500c8d6e802a9fc9463804bdcdd2c48180eb8aac8dd83a471c9e4f2b9",
-//     port: 5432
-// });
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-client.connect()
+
+
+
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/uploads/")
+    destination: async function (req, file, cb) {
+        cb(null, "storage/temp/")
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + "--" + file.originalname)
@@ -228,10 +216,10 @@ app.post("/create-post", upload.single("file"), async (req, res) => {
         Body: req.body.Content,
         Image: req.file
     })
-    client.query(`INSERT INTO a_image(data, image, name)VALUES(bytea("${path.join(__dirname, req.file.filename)}"), "${req.file.filename}", "${req.file.originalname}")`, (err, final) => {
-        console.log(err, final);
-        client.end();
-    })
+
+    fs.copyFileSync(`storage/temp/${req.file.filename}`, `public/uploads/${req.file.filename}`, err=>{
+      if (err) return err;
+    });
 
     return res.redirect("/")
 })
@@ -334,4 +322,7 @@ app.post("/login", Passport.authenticate("local", {
 //#endregion
 
 
-app.listen(process.env.PORT, () => console.log(`app is listening to ${process.env.PORT}`));
+app.listen(process.env.PORT, async () => {
+
+  console.log(`app is listening to ${process.env.PORT}`)
+  });
