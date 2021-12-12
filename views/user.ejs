@@ -1,0 +1,24 @@
+<% layout("layout.ejs") %>
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link link-secondary" id="profile-tab" data-bs-toggle="tab" href="/" role="tab" aria-controls="profile" aria-selected="false">home</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="/user/<%- User.Username%>" role="tab" aria-controls="home" aria-selected="true">Profile</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link link-secondary" id="profile-tab" data-bs-toggle="tab" href="/user/<%- User.Username%>/posts" role="tab" aria-controls="profile" aria-selected="false">Posts</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="tab-content" id="myTabContent">
+      <h4>Username: <%=User.Username %> </h4> 
+      <p>Firstname : <%=User.Firstname %></p>
+      <p>Lastname : <%=User.Lastname %></p>
+      <p>Posts: <%= Posts.length%></p>
+    </div>
+  </div>
+</div>

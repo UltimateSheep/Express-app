@@ -1,31 +1,21 @@
-<% layout('layout') -%>
-    <div class="wrapper">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Main</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="/">Chat</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link link-secondary" href="/settings">Settings</a>
-        </li>
+<% layout("layout.ejs")%>
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <a class="nav-link link-secondary" id="profile-tab" data-bs-toggle="tab" href="/" role="tab" aria-controls="profile" aria-selected="false">home</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link link-secondary" id="home-tab" data-bs-toggle="tab" href="/user/<%- User.Username%>" role="tab" aria-controls="home" aria-selected="true">Profile</a>
+      </li>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="/user/<%- User.Username%>/posts" role="tab" aria-controls="profile" aria-selected="false">Posts</a>
+      </li>
     </ul>
-    <div class="ms-5">
-        <div class="card-header">
-            What is going on:
-        </div>
-        <form action="/create-post" id="postForm" method="post" enctype="multipart/form-data" class="mx-2">
-            <p class=" text-info">Post your own story</p>
-            <textarea name="Content" id="textArea" cols="50"required></textarea><br>
-            
-            <label for="Image">Picture(if needed):</label>
-            <input type="file" name="file" id="Image" accept="image/*" class="form-control"><br>
-            <input type="submit" value="Post!" id="inputBtn" class="btn btn-success text-center">
-
-        </form>
-        <hr>
-        <div class="card">
+  </div>
+  <div class="card-body">
+    <div class="tab-content" id="myTabContent">
+<div class="card">
             <ol class="list-group list-group-flush" reversed>
             <p class="text-muted mx-5">tip: If you don't see images, reload the page or wating them to load. </p>
                 <% let formNum=0 %>
@@ -180,7 +170,9 @@
                             <% }); %>
             </ol>
         </div>
-
+    </div>
+  </div>
+</div>
         <style>
             ol {
                 display: flex;
@@ -193,9 +185,7 @@
         </style>
     </div>
     </div>
-    <script src="/JavaScript/Posts.js">
-        
-        
+    <script src="../../../JavaScript/Posts.js">
     </script>
     <% block('js', `<script>
         

@@ -2,12 +2,27 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="og:title" content="SheepBook">
-  <meta name="og:description" content="place where you can interact with other people">
-  <meta name="keywords" content="SheepBook">
-  <meta name="author" content="Obama">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta property="og:title" content="SheepBook">
+      <meta property="og:type" content="website"/>
+      <meta property="og:image" content="https://express-app.ultimatecode.repl.co/uploads/icon.png">
+      <meta property="og:image:secure_url" content="https://express-app.ultimatecode.repl.co/uploads/icon.png" /> 
+      <meta property="og:image:type" content="image/png" /> 
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="1200" />
+      <meta property="og:url" content="https://express-app.ultimatecode.repl.co/">
+      <meta name="theme-color" content="#7289DA">
+
+      <meta name="twitter:card" content="summary_large_image">
+
+      <meta property="og:description" content="A place where you can post stuff talk to other people.">
+      <meta property="og:site_name" content="SheepBook">
+      <meta name="twitter:image:alt" content="UltimateSheep's website logo">
+
+      <meta name="keywords" content="SheepBook">
+      <meta name="author" content="Obama">
+    </head>
     <title>
         <%= title %>
     </title>
@@ -20,11 +35,15 @@
         integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
         crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="https://Express-app.ultimatecode.repl.co/uploads/icon.png" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
+
     <%- body %>
 </body>
+    <script src="/JavaScript/changeTheme.js"></script>
+
 <%- blocks.js %>
 
 </html>

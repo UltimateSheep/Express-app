@@ -2,14 +2,14 @@
     <form class="row g-3 needs-validation mx-xxl-5" novalidate="" method="post" action="/register">
         <div class="col-md-4">
             <label for="validationCustom01" class="form-label">First name</label>
-            <input type="text" class="form-control" id="validationCustom01" value="" required="" name="Firstname">
+            <input type="text" class="form-control" id="validationCustom01" value="" required name="Firstname">
             <div class="valid-feedback">
                 Looks good!
             </div>
         </div>
         <div class="col-md-4">
             <label for="validationCustom02" class="form-label">Last name</label>
-            <input type="text" class="form-control" id="validationCustom02" value="" required="" name="Lastname">
+            <input type="text" class="form-control" id="validationCustom02" value="" required name="Lastname">
             <div class="valid-feedback">
                 Looks good!
             </div>
@@ -19,7 +19,7 @@
             <div class="input-group has-validation">
                 <span class="input-group-text" id="inputGroupPrepend">?</span>
                 <input type="text" class="form-control" id="validationCustomUsername"
-                    aria-describedby="inputGroupPrepend" required="" minlength="3" maxlength="20" name="Username">
+                    aria-describedby="inputGroupPrepend" required minlength="3" maxlength="20" name="Username">
                 <div class="invalid-feedback">
                     Please choose a username.
                 </div>
@@ -30,7 +30,7 @@
             <div class="input-group has-validation">
                 <span class="input-group-text" id="inputGroupPrepend">!</span>
                 <input type="password" class="form-control" id="validationCustomPassword"
-                    aria-describedby="inputGroupPrepend" required="" minlength="3" maxlength="20" name="Password">
+                    aria-describedby="inputGroupPrepend" required minlength="3" maxlength="20" name="Password">
                 <div class="invalid-feedback">
                     Please choose a password.
                 </div>
@@ -49,14 +49,14 @@
         </div>
         <div class="col-md-6">
             <label for="validationCustom03" class="form-label">City</label>
-            <input type="text" class="form-control" id="validationCustom03" required="" name="City">
+            <input type="text" class="form-control" id="validationCustom03" required name="City">
             <div class="invalid-feedback">
                 Please provide a valid city.
             </div>
         </div>
         <div class="col-md-3">
             <label for="validationCustom04" class="form-label">Country</label>
-            <select class="form-select" id="validationCustom04" required="" name="Country">
+            <select class="form-select" id="validationCustom04" required name="Country">
                 <option class="disabled" disabled>Choose...</option>
                 <% countries.forEach(country=> { %>
                     <option>
@@ -70,7 +70,7 @@
         </div>
         <div class="col-md-3">
             <label for="validationCustom05" class="form-label">Zip</label>
-            <input type="number" class="form-control" id="validationCustom05" required="" name="Zip">
+            <input type="number" class="form-control" id="validationCustom05" required name="Zip">
             <div class="invalid-feedback">
                 Please provide a valid zip.
             </div>
@@ -94,17 +94,21 @@
             </p>
         </div>
     </form>
+    
     <% block('js', `<script>
         var forms = document.querySelectorAll('.needs-validation')
         Array.prototype.slice.call(forms)
         .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-        }, false)
+          form.addEventListener('submit', function (event) {
+            
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+          }
+          if (/\s/.test(forms.Username.value))
+              return false;
+          form.classList.add('was-validated')
+           }, false)
         })
-        </script>`) -%>
+
+      </script>`) -%>

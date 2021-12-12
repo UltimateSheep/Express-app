@@ -1,0 +1,20 @@
+{
+  "apiKey": "AIzaSyBwCdsc4gq43-a0is_GKokVY6eVAbZN8qg",
+  "authDomain": "express-app-afd10.firebaseapp.com",
+  "projectId": "express-app-afd10",
+  "storageBucket": "express-app-afd10.appspot.com",
+  "messagingSenderId": "43695524534",
+  "appId": "1:43695524534:web:56de46e5dc71272b997417",
+  "measurementId": "G-GPG9DH1210",
+  
+  "type": "service_account",
+  "project_id": "express-app-afd10",
+  "private_key_id": "304934b38aa2e5eb35e13d5d141e098b1f500989",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCVKzPxVmIqO9Jq\nYXqwb0SoL3iGNG5zSx7inJ+amF9nzuTM/7vF0XcIxnYi1oJ0tLqdtUt2YS5gKi6e\nMzMEWUDDJw3dhIElFLcx6GpFyzgnI9mN5Fk2l0R5QtSq1tWavmPDEV2E+I3KnnYe\nAPXl8vITnjASrEKyBY86dtjacXgvChO3M7+EU4vGChCSLRBQWeI37/lQU1xvnq3h\nd5pLRIY0wBQ/DhAwQyAGDi3NNG21kL4u9ntIhEk7N2m3cFsPWvsAqgfy8Q3ZPxnT\nXu6oSeRt9Co7SM7/rzDsvs3OzVv3cQJnwTjsnWoWHYFbGYbjcwB11mwAf12wAXRz\n/UlXu4adAgMBAAECggEAAR0HRblggTKHcbN+5XCR1smH65naQIe32CGAJXjBWYvX\nSa/CTd8wNW4PIAJxiyp1gXYtdS7o2DSTECuPVBclycRxsOIWJASMENYhw5nui4g+\neEsoiU+cELr5eGRNyC+8nI5KyufKCHr3TxEFxNdz4XFFqECwkhXtiZZX1wWQIUBo\nliDN07Oi/sygdi1QQBwbdLL2GhosJid/oJIMuOa8iiW9G6oiotUu5cRMSKi0mGMu\nCqk96kVyqvJfP+gNM9CP4PfI3GQP5aOLI2iphcwEgWZqxHqhhmVPIAO/3fwRowuw\noBu0kb1SLThI4qLz5FCZ5CgDXiXjr0xUoZf38L261wKBgQDDjSx3+3OD0XTxDi8L\n0RDnZJCE0uEEZd4TTIqO33182P0jtOwd6/MYxMoyk7zEKzhmVbShQg1QYAGhMlzt\n7daGbP497uIFHZxdPwGkihWorRud+P6obJ3BdFFSTWGY7ZHHM6w+/6WscUXqzlxO\nksfIE+gGuJF8pQge4LLKAEdV1wKBgQDDR5Ez6A37V23/btPW623XQLTzXdDDJs7C\n17vI5Ta2jqQwyVRKjay2mYUyojpiwPot4+yulMwiQVPcFiUTXG3ZvXPhphKL/GLr\nLoFC5lwyo1FZ/E12i04LbjN0JLx3h9Nd2XVaKWIyahLumWJRjpnXmsN4H8Ja4fiW\nEqv+wI5QqwKBgQC//2o723zNXeftjbmPZpOsPUbPwqT/xmzGkg4wvSneXMYeOtLh\nhfrGxOCpy/g4ux7DCz8wXUPpOHohJOutCCnrDjSJ5nOwBiSyQNyCCrm9RUmqTwDp\nqMszV9tIbYV3uzm4Vfm2WRb3OrglFLv4wZC51yGnB6yAryBMAN5KCv//PQKBgA7J\nAmNttHFNQ1TNrVheZuifS5QJjF7aN1llQCCLykK0NhZDiBBE/citgvo8cjM77TVA\nRpFJTtNhItpNCu2WV/Led0Gkc08KAutPkBXinyRuXSB1C+Bn17bh1x96EJL0Q7qd\nVldHPtoWUeyizGDkbR136EjWDr8W0N17+G3HYn8VAoGAG4sPvy2xjqezhLMdBeib\nQAx7+OHxEsmnWKyv3W/geEYMqKzH9k8S+mojkZABRuAMq2Ez2PwgUnX0deDSixvb\nmO6VWyh+yJSzITZvu+1/812aImS2lEUl57q44Tz0/Tb++u74DBPVnWn2hVjR2Kat\nRti2pAsoHQQS/wyQGd8M01U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fmt4c@express-app-afd10.iam.gserviceaccount.com",
+  "client_id": "104762935622228894416",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fmt4c%40express-app-afd10.iam.gserviceaccount.com"
+}
