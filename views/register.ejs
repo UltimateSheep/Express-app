@@ -105,7 +105,7 @@
               event.preventDefault()
               event.stopPropagation()
           }
-          if (/\s/.test(forms.Username.value))
+          if (^[a-zA-Z0-9]{4,10}$.test(forms.Username))
               return false;
           form.classList.add('was-validated')
            }, false)

@@ -21,6 +21,7 @@ const multer = require("multer");
 const admin = require('firebase-admin');
 const uuid = require("uuid-v4");
 const showdown = require("showdown");
+const cors = require("cors");
 
 const storage = multer.diskStorage({
   destination: async function(req, file, cb) {
@@ -32,6 +33,12 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage, limits: { fieldSize: 10 * 1024 * 1024 } })
 
+var corsOptions = {
+  origin: 'https://Express-app.ultimatecode.repl.co/',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -168,6 +175,7 @@ app.set("view engine", "ejs")
 
 app.get("/", isLoggedIn, (req, res) => {
   // const user = getUser(res.user)
+  res.setHeader("Content-Security-Policy", "script-src https://Express-app.ultimatecode.repl.co https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js")
   Posts.find({}, (err, result) => {
     if (err) return console.log(err);
     res.render("index", { title: "main page", User: req.user, Posts: result.reverse() })
